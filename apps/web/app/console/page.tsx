@@ -10,7 +10,6 @@ import type { MapMode } from "@/components/map/EOMap";
 import { QueryBar } from "@/components/search/QueryBar";
 import { QueryInterpretation } from "@/components/search/QueryInterpretation";
 import { SearchResults } from "@/components/search/SearchResults";
-import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { ErrorState, LoadingState } from "@/components/ui/LoadingState";
 import { groupedPresets } from "@/lib/presets";
@@ -144,7 +143,9 @@ function ConsoleInner() {
         <a href="/" className="wordmark" style={{ fontSize: 16 }}>
           Orbital<span className="q">Query</span>
         </a>
-        <Badge tone="purple">EO Console</Badge>
+        <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--text-faint)" }}>
+          EO Console
+        </span>
         <div style={{ flex: 1 }} />
         <a href="/api/health" target="_blank" rel="noreferrer" style={{ fontSize: 12, color: "var(--text-faint)" }}>
           system health
@@ -238,20 +239,17 @@ function ConsoleInner() {
           />
 
           <Card title="Available searches">
-            <div style={{ fontSize: 12, color: "var(--text-dim)", marginBottom: 10 }}>
+            <div style={{ fontSize: 12, color: "var(--text-dim)", marginBottom: 12 }}>
               Explore example regions — or search any location above.
             </div>
             {groupedPresets().map(({ group, presets }) => (
-              <div key={group} style={{ marginBottom: 12 }}>
-                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", color: "var(--text-faint)", marginBottom: 6 }}>
-                  {group}
-                </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              <div key={group} className="preset-group" style={{ marginBottom: 14 }}>
+                <div className="preset-group-label">{group}</div>
+                <div className="preset-grid">
                   {presets.map((p) => (
                     <button
                       key={p.id}
-                      className={`preset-chip${p.flagship ? " flagship" : ""}`}
-                      style={{ fontSize: 12, padding: "5px 12px" }}
+                      className={`preset-tile${p.flagship ? " flagship" : ""}`}
                       onClick={() => {
                         setQuery(p.query);
                         runSearch(p.query);
@@ -259,8 +257,10 @@ function ConsoleInner() {
                       type="button"
                       title={p.query}
                     >
-                      {p.name}
-                      {p.flagship ? " ★" : ""}
+                      <span className="t-name">
+                        {p.name}
+                        {p.flagship ? " ★" : ""}
+                      </span>
                     </button>
                   ))}
                 </div>

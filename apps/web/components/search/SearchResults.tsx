@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/Badge";
 import type { SceneSummary } from "@/types/scene";
 
 function fmtDate(iso: string) {
@@ -15,14 +14,16 @@ export function SearchResults({
   after: SceneSummary | null;
 }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      <div style={{ display: "flex", gap: 8 }}>
-        <div style={{ flex: 1, border: "1px solid rgba(96,165,250,0.4)", borderRadius: 8, padding: "8px 10px" }}>
-          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", color: "var(--blue)", marginBottom: 2 }}>BEFORE</div>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+        <div>
+          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--blue)", marginBottom: 4 }}>
+            Before
+          </div>
           {before ? (
             <>
-              <div style={{ fontSize: 13, fontWeight: 600 }}>{fmtDate(before.datetime)}</div>
-              <div style={{ fontSize: 11, color: "var(--text-dim)" }}>
+              <div style={{ fontSize: 13.5, fontWeight: 600 }}>{fmtDate(before.datetime)}</div>
+              <div style={{ fontSize: 11, color: "var(--text-dim)", fontFamily: "var(--mono)" }}>
                 ☁ {before.cloudCover.toFixed(1)}% · {before.mgrsTile ?? "—"}
               </div>
             </>
@@ -30,12 +31,21 @@ export function SearchResults({
             <div style={{ fontSize: 12, color: "var(--text-dim)" }}>none</div>
           )}
         </div>
-        <div style={{ flex: 1, border: "1px solid rgba(251,146,60,0.4)", borderRadius: 8, padding: "8px 10px" }}>
-          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", color: "var(--orange)", marginBottom: 2 }}>AFTER</div>
+        <div
+          style={{
+            borderLeft: "1px solid var(--border)",
+            paddingLeft: 14,
+            borderRight: "1px solid var(--border)",
+            paddingRight: 14,
+          }}
+        >
+          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--orange)", marginBottom: 4 }}>
+            After
+          </div>
           {after ? (
             <>
-              <div style={{ fontSize: 13, fontWeight: 600 }}>{fmtDate(after.datetime)}</div>
-              <div style={{ fontSize: 11, color: "var(--text-dim)" }}>
+              <div style={{ fontSize: 13.5, fontWeight: 600 }}>{fmtDate(after.datetime)}</div>
+              <div style={{ fontSize: 11, color: "var(--text-dim)", fontFamily: "var(--mono)" }}>
                 ☁ {after.cloudCover.toFixed(1)}% · {after.mgrsTile ?? "—"}
               </div>
             </>
@@ -50,7 +60,7 @@ export function SearchResults({
           <summary style={{ fontSize: 12, color: "var(--text-faint)", cursor: "pointer" }}>
             {candidates.length} candidate scenes
           </summary>
-          <div style={{ maxHeight: 180, overflowY: "auto", marginTop: 6, display: "flex", flexDirection: "column", gap: 4 }}>
+          <div style={{ maxHeight: 180, overflowY: "auto", marginTop: 6, display: "flex", flexDirection: "column" }}>
             {candidates.map((s) => {
               const isBefore = before?.id === s.id;
               const isAfter = after?.id === s.id;
@@ -61,19 +71,22 @@ export function SearchResults({
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    gap: 8,
                     fontSize: 11,
                     fontFamily: "var(--mono)",
                     color: "var(--text-dim)",
-                    background: "var(--bg)",
-                    border: "1px solid var(--border)",
-                    borderRadius: 6,
-                    padding: "5px 8px",
+                    borderBottom: "1px solid var(--border)",
+                    padding: "5px 2px",
                   }}
                 >
                   <span>{fmtDate(s.datetime)}</span>
                   <span>☁ {s.cloudCover.toFixed(1)}%</span>
-                  {isBefore && <Badge tone="blue">B</Badge>}
-                  {isAfter && <Badge tone="orange">A</Badge>}
+                  {isBefore && (
+                    <span style={{ color: "var(--blue)", fontWeight: 700 }}>B</span>
+                  )}
+                  {isAfter && (
+                    <span style={{ color: "var(--orange)", fontWeight: 700 }}>A</span>
+                  )}
                 </div>
               );
             })}
