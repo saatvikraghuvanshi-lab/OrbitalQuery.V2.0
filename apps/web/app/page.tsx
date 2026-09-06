@@ -42,66 +42,68 @@ export default function HomePage() {
 
   return (
     <main className="oq-container">
-      <nav className="site-nav">
-        <a href="/" className="wordmark">
-          Orbital<span className="q">Query</span>
-        </a>
-        <div className="nav-links">
-          <a href="/console">Console</a>
-          <a href="https://github.com" target="_blank" rel="noreferrer">
-            GitHub
+      <div className="hero-wrap">
+        <nav className="site-nav">
+          <a href="/" className="wordmark">
+            Orbital<span className="q">Query</span>
           </a>
-        </div>
-      </nav>
+          <div className="nav-links">
+            <a href="/console">Console</a>
+            <a href="https://github.com" target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+          </div>
+        </nav>
 
-      <section className="hero">
-        <span className="oq-badge">Earth Observation · Multi-temporal analysis</span>
-        <h1>
-          Ask questions.
-          <br />
-          Discover Earth Observation data.
-          <br />
-          <span className="accent">See what changed.</span>
-        </h1>
-        <p className="sub">
-          OrbitalQuery interprets a plain-language request, finds Sentinel-2 scenes over
-          your area and period, and turns before/after imagery into localized, quantified
-          change regions — EO-derived evidence for researchers and decision-makers.
-        </p>
+        <section className="hero">
+          <span className="oq-badge">Earth Observation · Multi-temporal analysis</span>
+          <h1>
+            Ask questions.
+            <br />
+            Discover Earth Observation data.
+            <br />
+            <span className="accent">See what changed.</span>
+          </h1>
+          <p className="sub">
+            OrbitalQuery interprets a plain-language request, finds Sentinel-2 scenes over
+            your area and period, and turns before/after imagery into localized, quantified
+            change regions — EO-derived evidence for researchers and decision-makers.
+          </p>
 
-        <form
-          className="hero-search"
-          onSubmit={(e) => {
-            e.preventDefault();
-            run(query);
-          }}
-        >
-          <input
-            className="oq-input"
-            placeholder='e.g. "urban expansion in Hyderabad between 2018 and 2026"'
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            aria-label="Search query"
-          />
-          <button className="oq-btn" type="submit">
-            Analyze
-          </button>
-        </form>
-
-        <div className="hero-examples">
-          <span>Try:</span>
-          {EXAMPLES.map((ex) => (
-            <button
-              key={ex}
-              className="preset-chip"
-              onClick={() => run(ex)}
-              type="button"
-            >
-              {ex}
+          <form
+            className="hero-search"
+            onSubmit={(e) => {
+              e.preventDefault();
+              run(query);
+            }}
+          >
+            <input
+              className="oq-input"
+              placeholder='e.g. "urban expansion in Hyderabad between 2018 and 2026"'
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Search query"
+            />
+            <button className="oq-btn" type="submit">
+              Analyze
             </button>
-          ))}
-        </div>
-      </section>
+          </form>
+
+          <div className="hero-examples">
+            <span>Try:</span>
+            {EXAMPLES.map((ex) => (
+              <button
+                key={ex}
+                className="preset-chip"
+                onClick={() => run(ex)}
+                type="button"
+              >
+                {ex}
+              </button>
+            ))}
+          </div>
+        </section>
+      </div>
 
       <section className="preset-section">
         <div className="section-head">

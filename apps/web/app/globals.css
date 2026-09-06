@@ -458,9 +458,27 @@ a:hover {
   text-decoration: none;
 }
 
+/*
+ * First-viewport block: nav + hero together fill 100dvh so the hero
+ * stretches to exactly the space below the nav, whatever its content height.
+ */
+.hero-wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Hero grows to fill the space under the nav; content centers vertically. */
 .hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 0;
   text-align: left;
-  padding: 72px 0 56px;
+  padding: clamp(20px, 5vh, 48px) 0 clamp(24px, 6vh, 56px);
 }
 .hero h1 {
   font-size: clamp(36px, 4.6vw, 54px);
@@ -483,10 +501,12 @@ a:hover {
 .hero-search {
   display: flex;
   gap: 8px;
+  width: 100%;
   max-width: 620px;
 }
 
 .hero-examples {
+  width: 100%;
   margin-top: 12px;
   font-size: 13px;
   color: var(--text-faint);
