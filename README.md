@@ -202,7 +202,9 @@ docs/                        ARCHITECTURE · API · DEPLOYMENT
 Deliberately **excluded** to keep the tool deterministic and reliable:
 authentication, databases, chat history, Sentinel-1 processing, custom tile
 servers, large raster storage, and real-time telemetry.
-
+---
+BUILT ON TOP OF V1 REPOSITORY https://github.com/saatvikraghuvanshi-lab/OrbitalQuery
+---
 ## License
 
 [MIT](LICENSE) © 2026 Saatvik Raghuvanshi
