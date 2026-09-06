@@ -145,6 +145,9 @@ Scenes come from **Sentinel-2 Level-2A** on the
 [Microsoft Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a).
 Full methodology and data flow: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
+Research Documents
+1. [ORBITALQUERY_RESEARCH_REPORT (3).docx](https://github.com/user-attachments/files/31881106/ORBITALQUERY_RESEARCH_REPORT.3.docx)
+2. [isprs-archives-XLVIII-4-W1-2022-503-2022.pdf](https://github.com/user-attachments/files/31881108/isprs-archives-XLVIII-4-W1-2022-503-2022.pdf)
 ## Project structure
 
 ```
