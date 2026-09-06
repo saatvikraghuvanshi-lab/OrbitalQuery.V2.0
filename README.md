@@ -205,6 +205,13 @@ servers, large raster storage, and real-time telemetry.
 ---
 BUILT ON TOP OF V1 REPOSITORY https://github.com/saatvikraghuvanshi-lab/OrbitalQuery
 ---
+All documents 
+1.[Codoholics.Orbitalqueryv2.0.SIH.pdf](https://github.com/user-attachments/files/31885017/Codoholics.Orbitalqueryv2.0.SIH.pdf)
+2.[isprs-archives-XLVIII-4-W1-2022-503-2022 (1).pdf](https://github.com/user-attachments/files/31885014/isprs-archives-XLVIII-4-W1-2022-503-2022.1.pdf)
+3.[OrbitalQuery_Document_1_Presentation_Script.docx](https://github.com/user-attachments/files/31885015/OrbitalQuery_Document_1_Presentation_Script.docx)
+4.[OrbitalQuery_Document_3_Team_Cheat_Sheet.docx](https://github.com/user-attachments/files/31885019/OrbitalQuery_Document_3_Team_Cheat_Sheet.docx)
+5.[OrbitalQuery_Final_Research_Report.docx](https://github.com/user-attachments/files/31885018/OrbitalQuery_Final_Research_Report.docx)
+6.[ORBITALQUERY_RESEARCH_REPORT (3).docx](https://github.com/user-attachments/files/31885016/ORBITALQUERY_RESEARCH_REPORT.3.docx)
 ## License
 
 [MIT](LICENSE) © 2026 Saatvik Raghuvanshi
