@@ -7,6 +7,11 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
+# System shared libs that the slim base lacks but rasterio's manylinux wheel links against
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libexpat1 \
+ && rm -rf /var/lib/apt/lists/*
+
 # Python deps (rasterio ships manylinux wheels; no GDAL build needed)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
