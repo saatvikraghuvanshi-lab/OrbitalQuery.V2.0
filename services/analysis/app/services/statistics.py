@@ -1,6 +1,6 @@
 """Aggregate statistics for an analysis run."""
 
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 
