@@ -17,6 +17,8 @@ request, get Sentinel-2 before/after imagery and quantified land-change evidence
 
 ---
 
+![OrbitalQuery — homepage](docs/screenshots/home.png)
+
 OrbitalQuery interprets a plain-language request such as
 
 > *"urban expansion in Hyderabad between 2018 and 2026"*
@@ -52,6 +54,32 @@ Browser (Next.js + MapLibre GL)
 The browser never talks to the Python service directly. Analysis clips to the
 requested AOI *before* any expensive raster work and streams only that window of
 each band via COG range requests.
+
+## Screenshots
+
+The flagship demo — *urban expansion in Hyderabad, 2018 → 2026* — in the four map
+modes:
+
+**BEFORE** — the selected Sentinel-2 scene for the earlier date, with the parsed
+query interpretation (location, period, analysis, dataset) in the sidebar:
+
+![EO console — BEFORE mode](docs/screenshots/console-before.png)
+
+**SWIPE** — seasonally-matched before/after scenes on a synced overlay with a
+draggable divider:
+
+![EO console — SWIPE mode](docs/screenshots/console-swipe.png)
+
+**CHANGE** — localized NDVI change regions rendered as polygons, not a global mask:
+
+![EO console — CHANGE mode](docs/screenshots/console-change.png)
+
+**Quantified evidence** — per-analysis statistics (detected regions, changed area,
+mean magnitude, largest region) and a clickable per-region list. Shown here serving
+the transparent cached fallback after live analysis was unavailable — the imagery
+and scenes stay live:
+
+![EO console — change analysis panel](docs/screenshots/console-analysis.png)
 
 ## Features
 
