@@ -65,6 +65,17 @@ function safeRemoveSource(map: MLMap, id: string) {
   if (map.getSource(id)) map.removeSource(id);
 }
 
+// CHANGE mode shows the AFTER scene dimmed beneath the purple change polygons,
+// so the regions stay clearly visible over the satellite evidence.
+const CHANGE_IMAGERY_OPACITY = 0.6;
+
+/** AFTER-imagery per mode: full in AFTER, dimmed under the change polygons in CHANGE, hidden otherwise. */
+function applyAfterImageryMode(map: MLMap, mode: MapMode) {
+  const show = mode === "after" || mode === "change";
+  map.setLayoutProperty("after-imagery", "visibility", show ? "visible" : "none");
+  map.setPaintProperty("after-imagery", "raster-opacity", mode === "change" ? CHANGE_IMAGERY_OPACITY : 1);
+}
+
 /** Add a scene raster layer (id + outline layers) once its tilejson resolves. */
 async function addSceneLayer(map: MLMap, scene: SceneSummary, layerId: string, beforeId?: string) {
   const raster = await resolveRaster(scene.tileUrl);
@@ -81,7 +92,10 @@ async function addSceneLayer(map: MLMap, scene: SceneSummary, layerId: string, b
       tileSize: 256,
       attribution: "Contains modified Copernicus Sentinel data — Planetary Computer",
     });
-    map.addLayer({ id: layerId, type: "raster", source: layerId, paint: { "raster-opacity": 1 } }, beforeId);
+    // Scene imagery slots below the AOI outline when one is requested
+    // (CHANGE target order: basemap → imagery → AOI → change polygons).
+    const insertBefore = beforeId && map.getLayer(beforeId) ? beforeId : undefined;
+    map.addLayer({ id: layerId, type: "raster", source: layerId, paint: { "raster-opacity": 1 } }, insertBefore);
   }
   return true;
 }
@@ -102,6 +116,9 @@ export default function EOMap(props: EOMapProps) {
   const [mapReady, setMapReady] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const lastAoiKey = useRef<string>("");
+  // Live mode for async completions: raster effects finish loading after the
+  // user may have switched mode, so they must not trust captured props.mode.
+  const modeRef = useRef<MapMode>("before");
 
   // ---- map init ----
   useEffect(() => {
@@ -201,6 +218,31 @@ export default function EOMap(props: EOMapProps) {
     };
   }, [props.beforeScene, mapReady]);
 
+  // ---- after raster ----
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!mapReady || !map) return;
+    let stale = false;
+    (async () => {
+      if (props.afterScene) {
+        const ok = await addSceneLayer(map, props.afterScene, "after-imagery", "aoi-outline");
+        if (stale) return;
+        if (!ok) {
+          setLoadError("after imagery could not be loaded");
+        } else if (map.getLayer("after-imagery")) {
+          // Apply the mode that is live NOW (the fetch may have outlived a switch).
+          applyAfterImageryMode(map, modeRef.current);
+        }
+      } else {
+        safeRemoveLayer(map, "after-imagery");
+        safeRemoveSource(map, "after-imagery");
+      }
+    })();
+    return () => {
+      stale = true;
+    };
+  }, [props.afterScene, mapReady]);
+
   // ---- change regions ----
   useEffect(() => {
     const map = mapRef.current;
@@ -274,6 +316,7 @@ export default function EOMap(props: EOMapProps) {
 
   // ---- raster visibility by mode ----
   useEffect(() => {
+    modeRef.current = props.mode;
     const map = mapRef.current;
     if (!mapReady || !map) return;
     const showBefore = props.mode === "before" || props.mode === "swipe";
@@ -282,7 +325,10 @@ export default function EOMap(props: EOMapProps) {
       map.setLayoutProperty("before-imagery", "visibility", showBefore ? "visible" : "none");
       map.setPaintProperty("before-imagery", "raster-opacity", showChange ? 0.3 : 1);
     }
-  }, [props.mode, mapReady, props.beforeScene, props.changeGeojson]);
+    if (map.getLayer("after-imagery")) {
+      applyAfterImageryMode(map, props.mode);
+    }
+  }, [props.mode, mapReady, props.beforeScene, props.afterScene, props.changeGeojson]);
 
   return (
     <div style={{ position: "absolute", inset: 0 }}>

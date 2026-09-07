@@ -6,8 +6,11 @@ import { Card } from "@/components/ui/Card";
 import { EmptyState, ErrorState, LoadingState, WarningState } from "@/components/ui/LoadingState";
 import { ChangeStats } from "./ChangeStats";
 import { ChangeRegionCard } from "./ChangeRegionCard";
+import { ReportExport } from "./ReportExport";
 import type { AnalysisResponse } from "@/types/analysis";
 import type { ChangeFeatureCollection } from "@/types/geojson";
+import type { ParsedQuery } from "@/types/query";
+import type { SceneSummary } from "@/types/scene";
 
 export type AnalysisPhase = "idle" | "running" | "done" | "error";
 
@@ -20,6 +23,10 @@ export function AnalysisPanel({
   selectedRegionId,
   onRegionSelect,
   analysisKind,
+  parsed,
+  beforeScene,
+  afterScene,
+  mapRef,
 }: {
   phase: AnalysisPhase;
   result: AnalysisResponse | null;
@@ -29,6 +36,10 @@ export function AnalysisPanel({
   selectedRegionId: string | null;
   onRegionSelect: (id: string | null) => void;
   analysisKind: string;
+  parsed: ParsedQuery | null;
+  beforeScene: SceneSummary | null;
+  afterScene: SceneSummary | null;
+  mapRef?: React.RefObject<{ getCanvas: () => HTMLCanvasElement } | null>;
 }) {
   const geojson = (result?.geojson ?? null) as ChangeFeatureCollection | null;
 
@@ -84,7 +95,17 @@ export function AnalysisPanel({
             )}
             {result.statistics && result.status === "ok" && (
               <>
-                <ChangeStats stats={result.statistics} />
+                <ChangeStats stats={result.statistics} geojson={geojson} />
+                {parsed && (
+                  <ReportExport
+                    parsed={parsed}
+                    beforeScene={beforeScene}
+                    afterScene={afterScene}
+                    result={result}
+                    geojson={geojson}
+                    mapRef={mapRef}
+                  />
+                )}
                 {geojson && geojson.features.length > 0 && (
                   <>
                     <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-faint)" }}>

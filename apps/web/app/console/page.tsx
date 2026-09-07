@@ -236,6 +236,9 @@ function ConsoleInner() {
             selectedRegionId={selectedRegionId}
             onRegionSelect={setSelectedRegionId}
             analysisKind={result?.parsedQuery.analysis ?? "land_use_change"}
+            parsed={result?.parsedQuery ?? null}
+            beforeScene={before}
+            afterScene={after}
           />
 
           <Card title="Available searches">
